@@ -28,7 +28,7 @@ class Cards:
     
 class Deck:
     
-    def __init__(self, game_type):
+    def __init__(self, game_type, players):
         self.game_type = game_type
         deck = []
         for i in range(4):
@@ -40,6 +40,7 @@ class Deck:
             card = Cards(joker+4, 14)
             deck.append(card)
         self.deck = deck
+        self.players = players
         
         
     
@@ -71,10 +72,23 @@ class Deck:
         for card in self.game_deck:
             n = random.randrange(len(self.game_deck))
             self.shuffled_deck.insert(n, card)
-        return self.shuffled_deck
+        self.game_deck = self.shuffled_deck 
+        return self.game_deck
 
     def deal(self):
-        pass
+        #deals the four players five cards each first by dealing a round of three at a time then a round of two at a time
+        players_hands = []
+        for i in self.players: 
+            players_hands.append([])
+        for i in players_hands:
+            for j in i: 
+                players_hands.append(self.game_deck[:2]) 
+        for i in players_hands: 
+            for j in i: 
+                players_hands.append(self.game_deck[:1]) 
+        discard_pile = self.game_deck
+        return (discard_pile, players_hands)
+    
     def show_hand(self):
         pass
 
@@ -89,7 +103,9 @@ for j in range(4):
 def main():
     cardChoice= input("How many cards do you want to play with? 34, 30, 26 ")
     cardChoice= int(cardChoice)
-    t = Deck(cardChoice)
+    playerChoice = input("how many people do you want to play with (2-4)? ")
+    playerChoice = int(playerChoice) 
+    t = Deck(cardChoice, playerChoice)
     t.choose_cards()
     t.shuffle()
     
