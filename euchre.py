@@ -68,45 +68,11 @@ class Deck:
         
     def shuffle(self):
         self.shuffled_deck= []
-        
-        for i in range(len(self.game_deck)):
-            self.shuffled_deck.append(0)
         for card in self.game_deck:
             n = random.randrange(len(self.game_deck))
-            while self.shuffled_deck[n] != 0:
-                n= random.randrange(len(self.game_deck))
             self.shuffled_deck.insert(n, card)
-            p=0
-            while self.shuffled_deck[p] == 0:
-                self.shuffled_deck[p] = []
-                p += 1
-            for j in self.shuffled_deck:
-                print(j)
         return self.shuffled_deck
-                
-                
-        # function that finds a randint btwn 0- (34) 52 and inserts the current card 
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-            
-            
-        
-            
-        
-        
-        
+
     def deal(self):
         pass
     def show_hand(self):
