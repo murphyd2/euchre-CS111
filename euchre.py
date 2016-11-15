@@ -78,11 +78,20 @@ class Deck:
     def deal(self):
         #deals the four players five cards each first by dealing a round of three at a time then a round of two at a time
         players_hands = []
-        for i in self.players: 
-            players_hands.append([])
-        for i in players_hands:
-            for j in i: 
-                players_hands.append(self.game_deck[:2]) 
+        hands_dealt= 0
+        for i in (self.players * 2): #4
+#             players_hands.append([])
+            hands_dealt+= 1 #1,2,3,4, 5,6,7,8
+            for hand in range(len(players_hands)+1):
+                if hands_dealt // self.players <= 1:
+                    players_hands.append([self.game_deck[:3]]) #0,1,2 dealt #3 excluded
+                    self.game_deck_undealt = self.game_deck[3:]#3 included
+                elif hands_dealt // self.players > 1:
+                    players_hands.append(self.game_deck_undealt[:2] #0,1, dealt of remaining cards 
+                    self.game_deck_discard_pile = self.game_deck_undealt[2:]
+                    
+                
+            
         for i in players_hands: 
             for j in i: 
                 players_hands.append(self.game_deck[:1]) 
