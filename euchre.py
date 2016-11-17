@@ -6,7 +6,7 @@
 import random 
 #import graphics 
 class Cards:
-
+    # This class creates a card with a suit and a number, represented by numbers.
     def __init__(self, suit, number):
         # suits are defined by numbers 0-4. Spades = 0, Clubs = 1, Hearts = 2, Diamonds = 3, Jokers = 4 and 5
         self.suit = suit
@@ -27,26 +27,34 @@ class Cards:
     
     
 class Deck:
-    
-    def __init__(self, game_type):
+    #This class initializes a deck class with 52 cards.
+    def __init__(self, game_type, playerNumber):
         self.game_type = game_type
+        self.playerNumber = playerNumber
         deck = []
+        # creates 13 cards of each suit using the Card class and appends them to the card list.
         for i in range(4):
             for j in range(13):
                 card = Cards(i, j+2)
                 deck.append(card)
-                
+        # creates 2 jokers each with the same number but with suit numbers 4 and 5.
         for joker in range(2):
             card = Cards(joker+4, 14)
             deck.append(card)
         self.deck = deck
         
-        
-    
-    
+       
     def get_deck(self):
         return self.deck
+    
+    def get_game_type(self):
+        return self.game_type
+    
+    def get_player_number(self):
+        return self.playerNumber
+    
     def choose_cards(self):
+        #chooses the number of cards the game will be played with based on a user input.
         self.game_deck = []
         if self.game_type == 34:
             for k in self.deck:
@@ -67,6 +75,7 @@ class Deck:
             return self.game_deck
         
     def shuffle(self):
+        #shuffles the deck 
         self.shuffled_deck= []
         for card in self.game_deck:
             n = random.randrange(len(self.game_deck))
@@ -74,12 +83,17 @@ class Deck:
         return self.shuffled_deck
 
     def deal(self):
-        pass
+        #deals the cards in the shuffled deck to the selected number of players.
+        if self.playerNumber == 2:
+            
     def show_hand(self):
         pass
 
         
-
+class HumanPlayer:
+    
+    def __init__(self):
+        
         
 """       
 for j in range(4):
@@ -89,7 +103,9 @@ for j in range(4):
 def main():
     cardChoice= input("How many cards do you want to play with? 34, 30, 26 ")
     cardChoice= int(cardChoice)
-    t = Deck(cardChoice)
+    playerNumber= input("How many people do you want to play with? 2, 3, 4 ")
+    playerNumber=int(playerNumber)
+    t = Deck(cardChoice, playerNumber)
     t.choose_cards()
     t.shuffle()
     
