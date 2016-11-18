@@ -9,8 +9,9 @@ class Cards:
     # this class creates cards. Each card has a number associated to its number and suit.
     def __init__(self, suit, number):
         # suits are defined by numbers 0-4. Spades = 0, Clubs = 1, Hearts = 2, Diamonds = 3, Jokers = 4 and 5
-        self.suit = suit
+        self.suit = suit 
         self.number = number
+
         if self.suit == 0:
             self.suit_name = "Spades"
         elif self.suit == 1:
@@ -21,7 +22,7 @@ class Cards:
             self.suit_name = "Diamonds"
         elif self.suit == 4 or self.suit == 5:
             self.suit_name = "Joker"  
-            
+
         if self.number == 11:
             self.number_name = "Jack"
         elif self.number == 12:
@@ -32,15 +33,16 @@ class Cards:
             self.number_name = "Ace"
         else:
             self.number_name = self.number
-            
+        
+       
     def get_suit(self):
-        return self.suit
-   
+            return self.suit
+
     def get_number(self):
         return self.number 
-    
+
     def show_card(self):
-        print(self.suit, self.number_name)
+        print(self.suit_name, self.number_name)
     
   
        
@@ -129,6 +131,7 @@ class Round:
             self.player3.hand.append(self.deck.deck.pop())
   
     def trick(self, cards_played):
+        """
         print("your cards are: ")
         for i in self.player0.hand:
             i.show_card()
@@ -136,6 +139,7 @@ class Round:
         play_list = play_card.split()
         for j in self.player0.hand:
             try:
+
                 if play_list[0] == j.suit_name and int(play_list[1]) == j.number_name:
                     place = self.player0.hand.index(j)
                     cards_played.append(self.player0.hand.pop(place))
@@ -143,32 +147,88 @@ class Round:
                 if play_list[0] == j.suit_name and play_list[1] == j.number_name:
                     place = self.player0.hand.index(j)
                     cards_played.append(self.player0.hand.pop(place))
+            
         
+        """
+        player_trick(self.player0, cards_played)
+        AI_trick(self.player1, cards_played)
+        AI_trick(self.player2, cards_played)
+        AI_trick(self.player3, cards_played)
+
         print("The cards now in play are: ")
         for card in cards_played:
             card.show_card()
         
 
-            
-            
-        
-        
+
+                
 class Player:
     # creates a player that can either be controlled by the player or the AI.
-    def __init__(self, control, score):
-        self.control = control
+    def __init__(self, score):
         self.score = score
         self.hand = []
-        
-    def getControl(self):
-        return self.control
     
     def getHand(self):
         return self.hand
     
     def getScore(self):
         return self.score
+
+class AI:
+    def __init__(self, score):
+        self.score = score
+        self.hand = []
+
+    def getHand(self):
+        return self.hand
+
+    def getScore(self):
+        return self.hand
+
+def AI_trick(player, cards_played):
+    suit = cards_played[0].get_suit()
+    number = cards_played[0].get_number()
+    for i in cards_played:
+        if i.get_number() > number:
+            number = i.get_number()
+            
+    max = 0
+    for card in player.hand:
+        if card.get_suit() == suit:
+           
+            if card.get_number() >= number:
+                max = card
+            else:
+                try:
+                    if card.get_number() > max.get_number():
+                        max = card
+                except:
+                    if card.get_number() > max:
+                        max = card
+        else:
+            max = player.hand[0]
+    idx = player.hand.index(max)
+    cards_played.append(player.hand.pop(idx))
+
     
+
+def player_trick(player, cards_played):
+    print("your cards are: ")
+    for i in player.hand:
+        i.show_card()
+    play_card = input("What card would you like to play? ")
+    play_list = play_card.split()
+    for j in player.hand:
+        try:
+            if play_list[0] == j.suit_name and int(play_list[1]) == j.number_name:
+                place = player.hand.index(j)
+                cards_played.append(player.hand.pop(place))
+        except:
+            if play_list[0] == j.suit_name and play_list[1] == j.number_name:
+                place = player.hand.index(j)
+                cards_played.append(player.hand.pop(place))
+
+
 def play_game():
     # plays the game
     cardChoice= input("How many cards do you want to play with? 34, 30, 26 ")
@@ -185,16 +245,23 @@ def play_game():
         player0 = Player(None, 0)
         player1 = Player(None, 0)
     """
-    player0 = Player(None, 0)
-    player1 = Player(None, 0)
-    player2 = Player(None, 0)
-    player3 = Player(None, 0)
-    while player0.score < 10 or player1.score < 10 or player2.score < 10 or player3.score < 10:
+    score0 = 0
+    score1 = 0
+    score2 = 0
+    score3 = 0
+    player0 = Player(score0)
+    player1 = Player(score1)
+    player2 = Player(score2)
+    player3 = Player(score3)
+    while score0 < 10 or score1 < 10 or score2 < 10 or score3 < 10:
+        
+
         t = Round(cardChoice, player0, player1, player2, player3)
         t.deal()
         cards_played = []
         while player0.hand != []:
             t.trick(cards_played)
+            
         
         
     
